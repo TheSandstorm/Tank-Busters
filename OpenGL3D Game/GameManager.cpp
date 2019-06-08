@@ -71,7 +71,7 @@ CGameManager::CGameManager()
 	OptOpt.push_back(""); //Placeholder For BGM Text
 	OptOpt.push_back("Back");
 
-	OptionMenu = std::make_shared<CMenu>(OptOpt, glm::vec2(40.0f, 280.0f));
+	OptionMenu = std::make_shared<CMenu>(OptOpt, glm::vec2(40.0f, -280.0f));
 #pragma endregion
 
 #pragma region MultiplayerMenu
@@ -97,41 +97,40 @@ CGameManager::CGameManager()
 	
 	Player0 = std::make_shared<CPlayer>(glm::vec3(0.0f,0.0f, 0.0f));
 	Player1 = std::make_shared<CPlayer>(glm::vec3(0.0f, 0.0f, 0.0f));
-	Floor = std::make_shared<CFloor>(glm::vec3(0.0f, 0.0f, 0.0f));
+	Floor = std::make_shared<CFloor>(glm::vec3(0.0f, 0.0f, -100.0f));
 
+	TranslationMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
+	ScaleMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
+	RotationMatrix = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	MenuTank = CObjectManager::GetModel(SEEK_ENEMY);
 }
 
 void CGameManager::DrawMenu()
 {
-	glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
-	glm::mat4 ScaleMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
-	MenuTank->Render(TranslationMatrix * ScaleMatrix);
-	/*CCamera::GetInstance()->Update(deltaTime);*/
+	MenuTank->Render(TranslationMatrix * RotationMatrix * ScaleMatrix);
+	CCamera::GetInstance()->Update(deltaTime);
 	CM.Render(CubeShader);
 	Floor->Update(deltaTime);
-	CCamera::GetInstance()->calculate(deltaTime);
 	Title->Render();
 	StartMenu->Render();
 }
 
 void CGameManager::DrawGame()
 {
-	Player0->Update(deltaTime);
-	CM.Render(CubeShader);
-	for (auto it : EnemyVect) it->Update(deltaTime);
-	
-	Floor->Update(deltaTime);
 	ScoreText->Render();
 	LivesText->Render();
+	Player0->Update(deltaTime);
+	CCamera::GetInstance()->Update(deltaTime);
+	CM.Render(CubeShader);
+	for (auto it : EnemyVect) it->Update(deltaTime);
+	Floor->Update(deltaTime);
 }
 
 void CGameManager::DrawEnd()
 {
 	CM.Render(CubeShader);
-	glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
-	glm::mat4 ScaleMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
-	MenuTank->Render(TranslationMatrix * ScaleMatrix);
+	
+	MenuTank->Render(TranslationMatrix * RotationMatrix * ScaleMatrix);
 	CCamera::GetInstance()->Update(deltaTime);
 	ScoreText->SetPosition(glm::vec2(90.0f, 50.0f));
 	ScoreText->Render();
@@ -147,6 +146,7 @@ void CGameManager::DrawOption()
 	glm::mat4 ScaleMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
 	CCamera::GetInstance()->Update(deltaTime);
 	MenuTank->Render(TranslationMatrix * ScaleMatrix);
+	Floor->Update(deltaTime);
 	Title->Render();
 	OptionMenu->Render();
 }
@@ -179,24 +179,24 @@ void CGameManager::GameLoop()
 		return;
 	}
 	if (Player0 != nullptr) {
-		////Spawning Enemies
-		//if (EnemyVect.size() < 10) {
-		//	SpawnTimer += 10.0f * deltaTime;
-		//	if (SpawnTimer >= SpawnLimiter) {
-		//		SpawnTimer = 0.0f;
-		//		glm::vec3 SpawnPos = {
-		//			static_cast<float>((rand() % 6000) - 3000),
-		//			static_cast<float>((rand() % 6000) - 3000),
-		//			0.0f
-		//		};
-		//		if ((rand() % 5) == 0) {
-		//			EnemyVect.push_back(std::make_shared<CEnemyPursue>(SpawnPos, Player0));
-		//		}
-		//		else {
-		//			EnemyVect.push_back(std::make_shared<CEnemyWander>(SpawnPos, Player0));
-		//		}
-		//	}
-		//}
+		//Spawning Enemies
+		if (EnemyVect.size() < 10) {
+			SpawnTimer += 10.0f * deltaTime;
+			if (SpawnTimer >= SpawnLimiter) {
+				SpawnTimer = 0.0f;
+				glm::vec3 SpawnPos = {
+					static_cast<float>((rand() % 6000) - 3000),
+					static_cast<float>((rand() % 6000) - 3000),
+					0.0f
+				};
+				if ((rand() % 5) == 0) {
+					EnemyVect.push_back(std::make_shared<CEnemyPursue>(SpawnPos, Player0));
+				}
+				else {
+					EnemyVect.push_back(std::make_shared<CEnemyWander>(SpawnPos, Player0));
+				}
+			}
+		}
 		CInputManager::ProcessKeyInput(Player0);
 
 		//Checking every entity
@@ -356,15 +356,10 @@ void CGameManager::RestartGame()
 
 	Player0->State = NONE;
 	Player0->GetPos() = glm::vec3(0.0f, 0.0f, 0.0f);
-	Player0->GetVelocity() = glm::vec3();
+	Player0->GetVelocity() = glm::vec3(0.0f, 0.0f, 0.0f);
 	Player0->GetBulletVect().clear();
 
-	Player1->State = NONE;
-	Player1->GetPos() = glm::vec3(0.0f, 0.0f, 0.0f);
-	Player1->GetVelocity() = glm::vec3();
-	Player1->GetBulletVect().clear();
-
 	Score = 0;
-	ScoreText->SetPosition(glm::vec2(20.0f, 700.0f));
+	ScoreText->SetPosition(glm::vec2(20.0f, -300.0f));
 	ScoreText->SetText("SCORE: " + std::to_string(Score));
 }

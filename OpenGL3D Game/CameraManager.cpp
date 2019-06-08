@@ -43,7 +43,7 @@ void CCamera::Update(float deltaTime)
 	camPos.x = sin(timeElapsed) * radius;
 	camPos.y = 2;
 	camPos.z = cos(timeElapsed) * radius;
-
+	camPos = glm::vec3(0.0f, 0.0f, 15.0f);
 	view = glm::lookAt(camPos, glm::vec3(0.0f, 0.0f, 0.0f), camUpDir);
 }
 //creates the Camera and its pointer

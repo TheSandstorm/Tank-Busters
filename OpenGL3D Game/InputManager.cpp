@@ -21,7 +21,7 @@ void CInputManager::ProcessKeyInput(std::shared_ptr<CPlayer> _Player) {
 		//Held
 	}
 	else if (KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) {
-		_Player->CreateBullet(glm::vec3(-1.0f, 0.0f, 0.0f));
+		_Player->CreateBullet(glm::vec3(1.0f, 0.0f, 0.0f));
 		KeySpecialArray[GLUT_KEY_RIGHT] = KEY_HELD;
 	}
 
@@ -30,7 +30,7 @@ void CInputManager::ProcessKeyInput(std::shared_ptr<CPlayer> _Player) {
 		//Held
 	}
 	else if (KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) {
-		_Player->CreateBullet(glm::vec3(1.0f, 0.0f, 0.0f));
+		_Player->CreateBullet(glm::vec3(-1.0f, 0.0f, 0.0f));
 		KeySpecialArray[GLUT_KEY_LEFT] = KEY_HELD;
 	}
 
@@ -39,7 +39,7 @@ void CInputManager::ProcessKeyInput(std::shared_ptr<CPlayer> _Player) {
 		//Held Stuff
 	}
 	else if (KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) {
-		_Player->CreateBullet(glm::vec3(0.0f, -1.0f, 0.0f));
+		_Player->CreateBullet(glm::vec3(0.0f, 1.0f, 0.0f));
 
 		KeySpecialArray[GLUT_KEY_UP] = KEY_HELD;
 	}
@@ -51,7 +51,7 @@ void CInputManager::ProcessKeyInput(std::shared_ptr<CPlayer> _Player) {
 	else if (KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS) {
 		KeySpecialArray[GLUT_KEY_DOWN] = KEY_HELD;
 		_Player->bShoot = true;
-		_Player->CreateBullet(glm::vec3(0.0f, 1.0f, 0.0f));
+		_Player->CreateBullet(glm::vec3(0.0f, -1.0f, 0.0f));
 	}
 
 	else if (KeySpecialArray[GLUT_KEY_RIGHT] == KEY_RELEASED) _Player->bShoot = false;
@@ -62,27 +62,28 @@ void CInputManager::ProcessKeyInput(std::shared_ptr<CPlayer> _Player) {
 #pragma region WASD INPUT
 	//RIGHT KEY INPUT
 	if (KeyArray['d'] == KEY_HELD) {
-		glm::vec3 Target = { _Player->GetPos().x - 200.0f,_Player->GetPos().y, _Player->GetPos().z };
+		glm::vec3 Target = { _Player->GetPos().x + 200.0f,_Player->GetPos().y, _Player->GetPos().z };
 		_Player->GetTarget() = Target;
 	}
 	else if (KeyArray['d'] == KEY_FIRST_PRESS) KeyArray['d'] = KEY_HELD;
 
 	//LEFT KEY INPUT
 	else if (KeyArray['a'] == KEY_HELD) {
-		glm::vec3 Target = { _Player->GetPos().x + 200.0f,_Player->GetPos().y, _Player->GetPos().z };
+		glm::vec3 Target = { _Player->GetPos().x - 200.0f,_Player->GetPos().y, _Player->GetPos().z };
 		_Player->GetTarget() = Target;
 	}
 	else if (KeyArray['a'] == KEY_FIRST_PRESS) KeyArray['a'] = KEY_HELD;
 
 	//UP KEY INPUT
 	else if (KeyArray['w'] == KEY_HELD) {
-		glm::vec3 Target = { _Player->GetPos().x,_Player->GetPos().y - 200.0f, _Player->GetPos().z };
+		glm::vec3 Target = { _Player->GetPos().x,_Player->GetPos().y + 200.0f, _Player->GetPos().z };
 		_Player->GetTarget() = Target;
 	}
 	else if (KeyArray['w'] == KEY_FIRST_PRESS) KeyArray['w'] = KEY_HELD;
 
+	//DOWN KEY INPUT
 	else if (KeyArray['s'] == KEY_HELD) {
-		glm::vec3 Target = { _Player->GetPos().x,_Player->GetPos().y + 200.0f, _Player->GetPos().z };
+		glm::vec3 Target = { _Player->GetPos().x,_Player->GetPos().y - 200.0f, _Player->GetPos().z };
 		_Player->GetTarget() = Target;
 	}
 	else if (KeyArray['s'] == KEY_FIRST_PRESS) KeyArray['s'] = KEY_HELD;

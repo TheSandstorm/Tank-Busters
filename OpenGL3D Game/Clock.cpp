@@ -8,7 +8,8 @@ CClock::CClock() {
 	OldTime = static_cast<float>(glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
 };
 
-std::shared_ptr<CClock> CClock::GetInstance() {
+std::shared_ptr<CClock> CClock::GetInstance()
+{
 	if (ClockPtr == nullptr) ClockPtr = std::shared_ptr <CClock>(new CClock());
 	return ClockPtr;
 };

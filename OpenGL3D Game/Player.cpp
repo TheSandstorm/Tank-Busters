@@ -3,13 +3,13 @@
 CPlayer::CPlayer(glm::vec3 _Pos)
 {
 	Pos = _Pos;
-	Scale = glm::vec3(0.5f, 0.5f, 0.5f);
+	Scale = glm::vec3(0.1f, 0.1f, 0.1f);
 	Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	Velocity = { 0.0f, 0.0f, 0.0f };
 	Target = { 0.0f, 0.0f, 0.0f };
 
 	maxSpeed = 15.0f;
-	maxForce = 0.0f;
+	maxForce = 1.0f;
 	HitRadius = 110.0f;
 	bShoot = false;
 	State = NONE;
@@ -22,6 +22,14 @@ CPlayer::CPlayer(glm::vec3 _Pos)
 
 CPlayer::~CPlayer()
 {
+}
+
+void CheckNanPlayer(glm::vec3& _Vec) {
+	for (int i = 0; i < 3; ++i) {
+		if (isnan(_Vec.x)) _Vec.x = 0.0f;
+		if (isnan(_Vec.y)) _Vec.y = 0.0f;
+		if (isnan(_Vec.z)) _Vec.z = 0.0f;
+	}
 }
 
 void CPlayer::Update(GLfloat deltaTime)
@@ -40,6 +48,7 @@ void CPlayer::Update(GLfloat deltaTime)
 	}
 
 	Velocity += AiMove::Seek(Pos, Velocity, Target);
+	CheckNanPlayer(Velocity); // Stops it from nullptr at the start of the game
 	Pos += Velocity * maxSpeed * deltaTime;
 	Render();
 
@@ -64,7 +73,7 @@ void CPlayer::CreateBullet(glm::vec3 Velocity)
 
 void CPlayer::Render()
 {
-	glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), glm::vec3(Pos.x, Pos.y, Pos.z) /375.f);
+	glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), glm::vec3(Pos.x, Pos.y, Pos.z +30.0f) /375.f);
 
 	float PI = 3.14159265359f;
 	float angle;
@@ -74,7 +83,7 @@ void CPlayer::Render()
 	glm::mat4 RotateX =
 		glm::rotate(
 			glm::mat4(),
-			glm::radians(Rotation.x + 0.0f),
+			glm::radians(Rotation.x + 90.0f),
 			glm::vec3(1.0f, 0.0f, 0.0f)
 		);
 

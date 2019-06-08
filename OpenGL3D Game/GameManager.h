@@ -85,4 +85,8 @@ private:
 
 	GLuint NormLightProgram3D;
 	GLuint TextShader;
+
+	glm::mat4 TranslationMatrix;
+	glm::mat4 ScaleMatrix;
+	glm::mat4 RotationMatrix;
 };

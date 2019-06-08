@@ -120,24 +120,29 @@ void CModelObject::Update(float deltaTime)
 
 void CModelObject::Render()
 {
-	glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), Pos / 375.0f);
+	glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), glm::vec3(Pos.x, Pos.y, Pos.z + 30.0f) / 375.0f);
+
+	float PI = 3.14159265359f;
+	float angle;
+	angle = atan2f(Velocity.x, Velocity.y) * (180.0f / PI);
 
 	//X Rotation
 	glm::mat4 RotateX =
 		glm::rotate(
 			glm::mat4(),
-			glm::radians(Rotation.x + 0.0f),
+			glm::radians(Rotation.x + 90.0f),
 			glm::vec3(1.0f, 0.0f, 0.0f)
 		);
+
 	glm::mat4 RotateY =
 		glm::rotate(
 			glm::mat4(),
-			glm::radians(Rotation.y + 0.0f),
+			glm::radians(Rotation.y + (angle * -1.0f)),
 			glm::vec3(0.0f, 1.0f, 0.0f)
 		);
 
 	glm::mat4 ScaleMatrix = glm::scale(glm::mat4(), glm::vec3(Scale));
 	glm::mat4 ModelMatrix = TranslationMatrix * (RotateX * RotateY) * ScaleMatrix;
-
+	glUniform3fv(glGetUniformLocation(Shader, "camPos"), 1, glm::value_ptr(CCamera::GetPos()));
 	model->Render(ModelMatrix);
 }
