@@ -2,7 +2,7 @@
 
 CFloor::CFloor(glm::vec3 _Pos)
 {
-	Scale = glm::vec3(0.3f, 0.1f, 0.3f);
+	Scale = glm::vec3(8.0f, 8.0f, 0.2f);
 	Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	Pos = _Pos;
 	VAO = CObjectManager::GetMesh(FLOOR_ENTITY)->VAO;

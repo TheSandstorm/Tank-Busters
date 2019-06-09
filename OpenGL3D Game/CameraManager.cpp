@@ -17,7 +17,7 @@ CCamera::CCamera()
 	camLookDir = glm::vec3(0.0f, 0.0f, -1.0f);
 	camUpDir = glm::vec3(0.0f, 1.0f, 0.0f);
 	view = glm::lookAt(camPos, camTar, camUpDir);
-	proj = glm::perspective(45.0f, (float)Utility::SCR_WIDTH / (float)Utility::SCR_HEIGHT, 0.1f, 10000.0f);
+	proj = glm::perspective(45.0f, (float)Utility::SCR_WIDTH / (float)Utility::SCR_HEIGHT, 0.1f, 20000.0f);
 }
 
 CCamera::~CCamera()

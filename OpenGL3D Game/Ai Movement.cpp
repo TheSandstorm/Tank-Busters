@@ -90,7 +90,7 @@ glm::vec3 AiMove::Wander(glm::vec3 _ObjPos, glm::vec3 _ObjVelocity, float _MaxSp
 	//Calculating a set amount in front of the object
 	glm::vec3 ForwardVector = _ObjPos + (glm::normalize(_ObjVelocity) * 1000.0f);
 
-	if (_ObjPos.x <= -3000.0f || _ObjPos.x >= 3000.0f || _ObjPos.y >= 3000.0f || _ObjPos.y <= -3000.0f) {
+	if (_ObjPos.x <= -2800.0f || _ObjPos.x >= 2800.0f || _ObjPos.y >= 2800.0f || _ObjPos.y <= -2800.0f) {
 		return Seek(_ObjPos, _ObjVelocity, glm::vec3());
 	}
 	//Using the x/y values of the forward vector and using parametric calculations, calculate a point on a circle

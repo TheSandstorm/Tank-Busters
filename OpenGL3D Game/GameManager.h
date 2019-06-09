@@ -25,6 +25,8 @@ public:
 
 	void RestartGame();
 
+	void ToggleMusic();
+
 	void Update();
 	void Render();
 	static GameState& GetState() { return CurrentState; };
@@ -35,7 +37,8 @@ private:
 
 	float SpawnLimiter = 3.0f;
 	float SpawnTimer = 0.0f;
-
+	int MaxEnemys = 10;
+	int Counter = 1;
 	//Parts of the game that can be rendered.
 	void DrawMenu();
 	void DrawGame();
@@ -71,6 +74,10 @@ private:
 	GLfloat deltaTime;
 	static GameState CurrentState;
 	unsigned int Score;
+	int Lives;
+	bool PlaySound;
+	bool SwitchSound;
+
 
 	CAudioManager AudioSystem;
 	CubeMap CM;

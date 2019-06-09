@@ -32,7 +32,7 @@ void CheckNanPlayer(glm::vec3& _Vec) {
 	}
 }
 
-void CPlayer::Update(GLfloat deltaTime)
+void CPlayer::Update(GLfloat deltaTime, CAudioManager AudioSystem)
 {
 	VPMatrix = CCamera::GetMatrix();
 	BulletTimer += 10.f * deltaTime;
@@ -41,7 +41,7 @@ void CPlayer::Update(GLfloat deltaTime)
 	{
 		if (bShoot) 
 		{
-			//sm.PlayShootFX();
+			AudioSystem.PlayAudioSoundEffects(1);
 			BulletVect.push_back(std::make_shared<CBullet>(BulletVelocity, Pos));
 			BulletTimer = 0.0f;
 		}

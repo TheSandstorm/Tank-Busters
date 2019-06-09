@@ -16,9 +16,10 @@ namespace Utility
 	 const std::string TextureString = "Resources/Textures/";
 	 const std::string CubeMapString = "Resources/Textures/CubeMap/";
 	 const std::string NormalFontString = "Resources/Fonts/arial.ttf";
-	 const std::string GameOver = "Resources/Audio/Game_over_music.wav";
+	 const std::string ShootingFX = "Resources/Audio/Thump.wav";
 	 const std::string BackgroundMusic = "Resources/Audio/CrabRave.wav";
-	 const std::string TestTexture = "Resources/Textures/Crab One.png";
+	 const std::string DesertTexture = "Resources/Textures/desert.jpg";
+	 const std::string BulletTexture = "Resources/Textures/Bullet.jpg";
 	 const std::string MenuMusic = "Resources/Audio/Menu_music.wav";
 	 const std::string PlayerTex = "Resources/Textures/";
 	 const std::string EnemyModel1 = "Resources/Models/Tank/Tank.obj";

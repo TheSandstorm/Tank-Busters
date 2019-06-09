@@ -117,6 +117,7 @@ void CTextLabel::Render()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
 }
+
 GLuint CTextLabel::GenerateTexture(FT_Face face)
 {
 	GLuint texture;

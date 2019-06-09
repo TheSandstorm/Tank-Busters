@@ -74,7 +74,7 @@ CEnemyWander::CEnemyWander(glm::vec3 _Pos, std::shared_ptr<CPlayer> _TargetEntit
 	Pos = _Pos;
 	Velocity = { 1.0f, 0.0f, 0.0f };
 	maxForce = 1.0f;
-	maxSpeed = 7.0f;
+	maxSpeed = 20.0f;
 	HitRadius = 130.0f;
 	TargetEntity = _TargetEntity;
 	Type = WANDER_ENEMY;
@@ -93,4 +93,8 @@ void CEnemyWander::Update(float deltaTime)
 	Velocity += AiMove::Wander(Pos, Velocity, maxSpeed, maxForce);
 	Pos += Velocity * maxSpeed * deltaTime;
 	Render();
+
+	if (glm::distance(Pos ,TargetEntity->GetPos()) <= TargetEntity->HitRadius) {
+		TargetEntity->State = DEAD;
+	}
 }

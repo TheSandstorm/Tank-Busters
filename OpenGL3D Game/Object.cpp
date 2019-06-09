@@ -77,12 +77,10 @@ void CObject::Render()
 
 	//Disabling backface culling
 	glDisable(GL_CULL_FACE);
+
 	glDisable(GL_BLEND);
 
 	//Clearing the vertex array
-	glBindVertexArray(0);
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, IndicesCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 

@@ -10,7 +10,7 @@ CLightManager::CLightManager()
 {
 	ambientColor = glm::vec3(1.0f, 1.0f, 1.0f);
 	lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-	lightPos = glm::vec3(-2.0f, 6.0f, 3.0f);
+	lightPos = glm::vec3(-2.0f, 6.0f, 6.0f);
 	ambientStr = 0.05f;
 }
 

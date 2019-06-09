@@ -1,10 +1,6 @@
 #include "CubeMap.h"
 
-//Name:				~CubeMap()
-//Parameters:		None
-//Return Type:		None
-//Description:		Default destructor overload for the
-//                  CubeMap class
+
 CubeMap::~CubeMap() {};
 
 //Name:					CubeMap()
@@ -138,7 +134,7 @@ void CubeMap::Render(GLuint _Program) {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Texture);
 
 	glUniform1i(glGetUniformLocation(_Program, "cubeSampler"), 0);
-	glm::mat4 model = glm::scale(glm::mat4(), glm::vec3(2000.0f, 2000.0f, 2000.0f));
+	glm::mat4 model = glm::scale(glm::mat4(), glm::vec3(10000.0f, 10000.0f, 10000.0f));
 	glm::mat4 MVP = CCamera::GetMatrix() * model;
 	glUniformMatrix4fv(glGetUniformLocation(_Program, "MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
 	glBindVertexArray(VAO);
@@ -146,5 +142,5 @@ void CubeMap::Render(GLuint _Program) {
 	glBindVertexArray(0);
 	glUseProgram(0);
 	glDisable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	glFrontFace(GL_CW);
+	glFrontFace(GL_CCW);
 }
